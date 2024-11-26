@@ -1,0 +1,13 @@
+*.pth
+*.pt
+yolov8/ball_detection
+yolov8/logs
+yolov8/runs
+yolov8/models
+table_key_points/annotations
+table_key_points/saved_models
+SAM/dataset
+SAM/output
+/dataset
+/models
+/Data
