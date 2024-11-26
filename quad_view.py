@@ -252,7 +252,6 @@ class PingPongAnalyzer:
             keypoints[0, 0] += left_top_x_offset
 
             self.stored_keypoints = keypoints
-            self.stored_keypoints = keypoints
             return keypoints
 
     def create_ball_segmentation_view(self, frame, ball_tracker, segmentation_mask):
@@ -294,7 +293,7 @@ class PingPongAnalyzer:
 
         return table_view
 
-    def process_frame(self, frame, ball_tracker, mini_map):
+    def process_frame(self, frame, ball_tracker):
         original_frame = frame.copy()
 
         if self.cached_mask is None or self.frame_count % self.segmentation_interval == 0:
@@ -350,12 +349,6 @@ class PingPongAnalyzer:
             ball_tracker = BallTracker(5)
             frame, _ = self.video_stream.read()
 
-            mini_map = TableTennisMiniMap(
-                frame,
-                width=MINI_MAP_WIDTH,
-                height=MINI_MAP_HEIGHT
-            )
-
             frame_interval = 1.0 / self.fps
 
             while self.video_stream.running():
@@ -364,7 +357,7 @@ class PingPongAnalyzer:
                 frame, frame_timestamp = self.video_stream.read()
 
                 self.frame_processor.input_queue.put(
-                    (frame, lambda f: self.process_frame(f, ball_tracker, mini_map)))
+                    (frame, lambda f: self.process_frame(f, ball_tracker)))
 
                 if not self.frame_processor.output_queue.empty():
                     processed_frame = self.frame_processor.output_queue.get()
