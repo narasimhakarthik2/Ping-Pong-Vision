@@ -4,6 +4,8 @@ A real-time ping pong analysis system powered by computer vision and deep learni
 
 ## 🎯 Demo
 ![Demo GIF](Data/quad_gif.gif)
+![Demo GIF](Data/inference.gif)
+![Demo GIF](Data/trial-effect.gif)
 
 ## Key Features
 - **Real-time Ball Detection & Tracking**
@@ -25,18 +27,9 @@ A real-time ping pong analysis system powered by computer vision and deep learni
   - Top-down tactical analysis
   - Combined visualization mode
 
-## 🏗️ System Architecture
-```
-├── Ping Pong Vision
-│   ├── Ball Detection (YOLOv8)
-│   ├── Table Analysis
-│   │   ├── Semantic Segmentation (U-Net)
-│   │   └── Keypoint Detection
-│   └── Visualization Pipeline
-│       ├── Multi-threaded Processing
-│       ├── CUDA Acceleration
-│       └── Real-time Rendering
-```
+## Architecture
+- The U-Net architecture used in this project for table segmentation
+![U-Net](Data/unet.png)
 
 ## 🛠️ Technical Implementation
 
@@ -80,25 +73,71 @@ cd Ping-Pong-Vision
 pip install -r requirements.txt
 ```
 
-3. Download pre-trained models
-```bash
-python download_models.py
+## 🎯 Dataset Preparation
+
+### 1. Dataset Structure
 ```
+data/
+├── videos/
+│   ├── game_1.mp4
+│   ├── game_2.mp4
+│   └── ...
+├── annotations/
+│   ├── table/
+│   │   ├── game_1.json
+│   │   └── ...
+│   └── ball/
+│       ├── game_1.txt
+│       └── ...
+└── images/
+    ├── train/
+    │   ├── images/
+    │   └── labels/
+    └── val/
+        ├── images/
+        └── labels/
+```
+
+### 2. Download and Setup
+```bash
+# Clone the repository if you haven't already
+git clone https://github.com/narasimhakarthik2/Ping-Pong-Vision.git
+cd Ping-Pong-Vision
+
+# Navigate to dataset preparation directory
+cd prepare_dataset
+
+# Download dataset and unzip annotations
+python download_dataset.py
+python unzip.py
+```
+
+### 3. Extract Images from Videos
+For full dataset extraction:
+```bash
+python extract_all_images.py
+```
+
+For custom extraction settings:
+```bash
+python extract_all_images.py --fps 30 --output_dir path/to/output
+```
+
+#### Arguments:
+- `--fps`: Frame extraction rate (default: 30)
+- `--output_dir`: Output directory for extracted frames
+- `--video_dir`: Input video directory (default: data/videos)
+- `--start_frame`: Starting frame number (default: 0)
+- `--end_frame`: Ending frame number (default: -1 for all frames)
 
 ### Usage
 1. Run the main analysis script:
 ```bash
-python main.py --input video.mp4 --output output.mp4
-```
-
-2. For real-time webcam analysis:
-```bash
-python main.py --source 0
+python inference.py
 ```
 
 ## 📄 Available Scripts
 
-- `yolo_inference.py`: Main ball detection script
 - `quad_view.py`: Multi-view visualization script
 - `ball_trail_effect.py`: Trail effect implementation
 
@@ -123,21 +162,6 @@ python main.py --source 0
 - 16GB RAM
 - Intel i7 or equivalent
 
-## 🔬 Project Structure
-```
-Ping-Pong-Vision/
-├── models/
-│   ├── best.pt            # YOLOv8 weights
-│   └── table_seg.pth      # U-Net weights
-├── utils/
-│   ├── ball_tracker.py
-│   └── mini_court.py
-├── config/
-│   └── settings.py
-├── SAM/
-│   └── model.py
-└── requirements.txt
-```
 
 ## 🤝 Contributing
 Contributions are welcome! Please feel free to submit a Pull Request. For major changes, please open an issue first to discuss what you would like to change.
