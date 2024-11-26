@@ -3,8 +3,13 @@
 A real-time ping pong analysis system powered by computer vision and deep learning. The system tracks ball trajectories, segments the table, detects key points, and provides multiple visualization modes including a stunning glow trail effect.
 
 ## 🎯 Demo
+- Quad View Analysis
 ![Demo GIF](Data/quad_gif.gif)
+
+- Inference
 ![Demo GIF](Data/inference.gif)
+
+- Ball Trajectory Trial Effect
 ![Demo GIF](Data/trial-effect.gif)
 
 ## Key Features
@@ -61,74 +66,75 @@ PyTorch 1.9+
 OpenCV 4.5+
 ```
 
-### Installation
-1. Clone the repository
+# 🚀 Setup Instructions
+
+## 1. Initial Setup
 ```bash
+# Clone the repository
 git clone https://github.com/narasimhakarthik2/Ping-Pong-Vision.git
 cd Ping-Pong-Vision
-```
 
-2. Install dependencies
-```bash
+# Create and activate virtual environment (recommended)
+python -m venv venv
+source venv/bin/activate  # On Windows: venv\Scripts\activate
+
+# Install dependencies
 pip install -r requirements.txt
 ```
 
-## 🎯 Dataset Preparation
-
-### 1. Dataset Structure
-```
-data/
-├── videos/
-│   ├── game_1.mp4
-│   ├── game_2.mp4
-│   └── ...
-├── annotations/
-│   ├── table/
-│   │   ├── game_1.json
-│   │   └── ...
-│   └── ball/
-│       ├── game_1.txt
-│       └── ...
-└── images/
-    ├── train/
-    │   ├── images/
-    │   └── labels/
-    └── val/
-        ├── images/
-        └── labels/
-```
-
-### 2. Download and Setup
+## 2. Dataset Preparation
 ```bash
-# Clone the repository if you haven't already
-git clone https://github.com/narasimhakarthik2/Ping-Pong-Vision.git
-cd Ping-Pong-Vision
-
 # Navigate to dataset preparation directory
 cd prepare_dataset
 
 # Download dataset and unzip annotations
 python download_dataset.py
 python unzip.py
-```
 
-### 3. Extract Images from Videos
-For full dataset extraction:
-```bash
+# Extract frames from videos
 python extract_all_images.py
 ```
 
-For custom extraction settings:
-```bash
-python extract_all_images.py --fps 30 --output_dir path/to/output
-```
+## 3. Training Pipeline
 
-#### Arguments:
-- `--fps`: Frame extraction rate (default: 30)
-- `--output_dir`: Output directory for extracted frames
-- `--video_dir`: Input video directory (default: data/videos)
-- `--start_frame`: Starting frame number (default: 0)
-- `--end_frame`: Ending frame number (default: -1 for all frames)
+### A. Ball Detection Model (YOLOv8)
+```bash
+# Navigate to ball detection directory
+cd ball_detection
+
+# Prepare YOLO dataset format
+python yolo_dataset.py
+
+# Train YOLOv8 model
+python train_yolov8.py
+```
+This will create a trained model in `models/best.pt`
+
+### B. Table Segmentation Model (SAM)
+```bash
+# Navigate to SAM directory
+cd SAM
+
+# Generate table annotations using SAM
+python annotate_table.py
+
+# Train segmentation model
+python train_seg.py
+```
+The trained segmentation model will be saved in `SAM/output/table_segmentation_model.pth`
+
+### C. Table Keypoints Model
+```bash
+# Navigate to table keypoints directory
+cd table_key_points
+
+# Create keypoint annotations
+python annotation.py
+
+# Train keypoint detection model
+python train.py
+```
+The keypoint model will be saved in `table_key_points/saved_models/best_model.pth`
 
 ### Usage
 1. Run the main analysis script:
@@ -169,14 +175,10 @@ Contributions are welcome! Please feel free to submit a Pull Request. For major 
 ## 📝 License
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-## 🙏 Acknowledgments
-- YOLOv8 team for the object detection framework
-- OpenCV community for computer vision tools
-- PyTorch team for the deep learning framework
 
 ## 📞 Contact
-- LinkedIn: [Your LinkedIn]
-- Email: [Your Email]
+- LinkedIn: https://www.linkedin.com/in/narasimha-karthik/
+- Email: narasimhakarthik2@gmail.com
 
 ## 📚 Citation
 If you use this project in your research or work, please cite:
