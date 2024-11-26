@@ -3,13 +3,19 @@
 A real-time ping pong analysis system powered by computer vision and deep learning. The system tracks ball trajectories, segments the table, detects key points, and provides multiple visualization modes including a stunning glow trail effect.
 
 ## 🎯 Demo
-- Quad View Analysis
+## Quad View Analysis
+Multi-view analysis system showing original footage, ball tracking, table segmentation, and combined visualization.
+
 ![Demo GIF](Data/quad_gif.gif)
 
-- Inference
+## Inference
+Real-time ball detection, table segmentation, and trajectory analysis with top-down tactical view.
+
 ![Demo GIF](Data/inference.gif)
 
-- Ball Trajectory Trial Effect
+## Ball Trajectory Trail Effect
+Beautiful visualization of ball movement with dynamic glowing trail effect.
+
 ![Demo GIF](Data/trial-effect.gif)
 
 ## Key Features
